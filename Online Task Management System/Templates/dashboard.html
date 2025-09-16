@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard & Add Task</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h2>Welcome to Your Dashboard</h2>
+    <a href="/logout">🚪 Logout</a>
+
+    <!-- Add Task Form -->
+    <h3>Add New Task</h3>
+    <form method="POST" action="/add_task">
+      <label>Title</label>
+      <input type="text" name="title" required>
+
+      <label>Description</label>
+      <textarea name="description" required></textarea>
+
+      <label>Priority</label>
+      <select name="priority">
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+      </select>
+
+      <label>Deadline</label>
+      <input type="date" name="deadline">
+
+      <button type="submit">Add Task</button>
+    </form>
+
+    <!-- Task List -->
+    <h3>Your Tasks</h3>
+    {% if tasks %}
+      <table border="1" cellpadding="8">
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Priority</th>
+          <th>Deadline</th>
+        </tr>
+        {% for task in tasks %}
+        <tr>
+          <td>{{ task.title }}</td>
+          <td>{{ task.description }}</td>
+          <td>{{ task.status }}</td>
+          <td>{{ task.priority or '-' }}</td>
+          <td>{{ task.deadline or '-' }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    {% else %}
+      <p>No tasks yet. Add one!</p>
+    {% endif %}
+  </div>
+</body>
+</html>
